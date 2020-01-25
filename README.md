@@ -1,1 +1,11 @@
-# weather_dashboard
+# Weather Dashboard
+
+## Introduction
+
+## Features
+
+### Preview
+
+### Resources
+
+### Badges
