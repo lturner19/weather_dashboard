@@ -15,22 +15,33 @@
 
 <body>
     <header>
-        <h1>Weather Dashboard</h1>
+        <h1>Weatjer </h1>
     </header>
-    <div class="card" style="width: 30%;">
-        <div class="card-body" id="search">
-            <h5>Search for a City:</h5>
-            <input id="user-input" type="text" />
-            <button><i class="fas fa-search"></i></button>
-        </div>
-    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card" style="width: 80%;">
+                    <div class="card-body" id="search">
+                        <h5>Search for a City:</h5>
+                        <input label="search" />
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body" id="city-info">
+                    </div>
+                </div>
+                <div class="card" style="width: 30%;">
+                    <div class="card-body" id="five-day">
+                        <h5>5-Day Forecast:</h5>
+                    </div>
+                </div>
 
 
-
-
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="script.js"></script>
+            </div>
+            <script src="script.js"></script>
 </body>
 
 </html>
