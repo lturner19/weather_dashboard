@@ -1,9 +1,9 @@
-const apiKey = "&appid=1b5bd969040dfbf14940a6cc061c29a4";
+const apiKey = "appid=1b5bd969040dfbf14940a6cc061c29a4";
 const city = [];
-const weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + apiKey;
-const forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + apiKey;
-const uviURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}&cnt={cnt}"
-apiKey;
+let weatherURL = "https://api.openweathermap.org/data/2.5/weather?" + apiKey + "&q=";
+let forecastURL = "http://api.openweathermap.org/data/2.5/forecast?" + apiKey + "&q=";
+let uviURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + ///
+    apiKey;
 let currentDate = moment().format('LL');
 
 /* <div class="card" style="width: 30%;">
@@ -31,9 +31,15 @@ let currentDate = moment().format('LL');
 console.log(currentDate);
 
 $("button").on("click", function () {
-    /* for (let index = 0; index < city.length; index++) {
-        const citySearch = city[index];
- */
+    const cityInput = $("#user-input").val().trim() //grabs the users city input
+    displayWeather(cityInput);
+    //can put validation here to handle when user does not put a response
+});
+
+function displayWeather(city) {
+
+    weatherURL = weatherURL.concat(city);
+
     $.ajax({
         url: weatherURL,
         method: "GET"
@@ -48,26 +54,20 @@ $("button").on("click", function () {
         var pOne = $("<p class='temperature'>");
 
         pOne.html("Temperature:  " + response.main.temp + "°F");
-        var tempF = (response.main.temp - 273.15) * 1.80 + 32)
+        var tempF = ((response.main.temp - 273.15) * 1.80) + 32;
 
-    var pTwo = $("<p class='humidity'>");
+        var pTwo = $("<p class='humidity'>");
 
-    pTwo.html("Humidity:  " + response.main.humidity + "%");
+        pTwo.html("Humidity:  " + response.main.humidity + "%");
 
-    var pThree = $("<p class='wind-speed'>");
+        var pThree = $("<p class='wind-speed'>");
 
-    pThree.html("Wind Speed  " + response.wind.speed + "mpg");
+        pThree.html("Wind Speed  " + response.wind.speed + "mpg");
 
-    var pfour = $("<p class='uv'>");
-
-
+        var pfour = $("<p class='uv'>");//put 2nd call back for uv w/in this function
 
 
-    /*   // Creating an element to have the rating displayed
-      var pOne = $("<p>").text("Rating: " + rating);
- 
-      // Displaying the rating
-      movieDiv.append(pOne); */
+    });
+}
 
-})
-})
+
