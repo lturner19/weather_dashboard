@@ -10,6 +10,11 @@ h1 {
     text-align: center;
     padding: 5px;
 }
+
+.card{
+    background-color:#c8d4ee;
+}
+
 i {
  color: white
 }
@@ -19,4 +24,14 @@ button {
     border: none;
     width: 10%;
     padding: 3px;
+}
+
+footer{
+    background-color: #d7dae3 ;
+    color: lightslategray;
+    font: 18px;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    position: absolute;
 }
