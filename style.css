@@ -34,6 +34,8 @@ li {
     background: white;
     border: 1px solid gray;
     padding: 5px;
+    max-width: 10%;
+    
 }
 
 .ok {
@@ -53,9 +55,6 @@ li {
     color: white;
 }
 
-.row2 {
-    justify-content: center;
-}
 
 .col-sm-2 {
     background-color:#eaf4f5;
@@ -64,8 +63,8 @@ li {
     text-align: center;
     border: 2px solid lightgrey;
     border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
+    padding: 15px 10px;
+    margin: 12px;
 }
 
 footer{
@@ -75,10 +74,10 @@ footer{
     font-weight: bolder;
     text-align: center;
     width: 100%;
-    height: 40px;
+    height: 1%;
     padding: 15px;
     bottom: 0;
-    position: absolute;
+    position: fixed;
 }
 /* media query for smaller sizes
 #user-input {
