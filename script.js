@@ -7,41 +7,30 @@ let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
 
 
 
-$(document).on("click", ".listnone", displayWeather);
 
-var storedCities = localStorage.getItem("city");
-if (storedCities !== null) {
-    var cityArr = JSON.parse(storedCities);
-    if (cityArr.length >= 0) {
-        for (index = 0; index < cityArr.length; index++) {
-            var ul = $("<ul>").attr("class", "listnone");
-            var li = $("<li>");
-            li.append(cityArr[index]);
-            ul.append(li);
-            $("#user-input").append(ul);
-        }
-    }
-}
-
-
-$("button").on("click", function () {
-    const cityInput = $("#user-input").val().trim(); //grabs the user's city input
-    city.push(cityInput);
-    let storeCities = localStorage.setItem("city", JSON.stringify(city));
+$("button").click(function displayCities() {
+    let cityInput = $("#user-input").val().trim();
     displayWeather(cityInput);
-
     if (cityInput === "") {
-        alert("Please enter a city name.");
+        alert("Please enter a city name");
     }
-    var ul = $("<ul>").attr("class", "listnone");
-    var li = $("<li>");
-    li.append(cityInput);
-    ul.append(li);
-    $(".cityList").prepend(ul);
-    localStorage.getItem("cityArr", cityArr);
 
-    weatherURL = weatherURL.concat(city)
-});
+    for (let index = 0; index < city.length; index++) {
+        const cityArray = city[index];
+        if (cityArray.length >= 0) {
+            var ul =$("<ul class='city-list'>");
+            var li =$("<li>");
+            li.html(index)
+            ul.append(li);
+            $(".city-input")
+
+            cityArray.push(cityInput)
+            var storeCity = local.storage.setItem("cityArray", JSON.stringify(cityArray));
+        }
+        var retrieveCities = JSON.parse(localStorage.getItem("city"));
+    }
+})
+
 
 function displayWeather(city) {
 
@@ -52,16 +41,20 @@ function displayWeather(city) {
         method: "GET"
     }).then(function (response) {
 
+        //dynamically creating h3 tag and then applying the city name from the api
         var cityHeading = $("<h3 class='user-city'>");
         cityHeading.append(response.name);
 
         var date = $("<span>")
         date.html(" " + moment(response.dt, "X").format("MM/DD/YYYY"));//converting the dt from a number to a string, then back to a number
-        cityHeading.append(date);
+
+        var img = "<img src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' >" //displays the weather icon for the day
+
+        cityHeading.append(date, img); //display city name with date and weather icon
 
         const pOne = $("<p class='temperature'>");
-        let tempF = (Math.floor((response.main.temp - 273.15) * 1.80) + 32);
-        pOne.html("Temperature:   " + tempF + "°F");
+        let tempF = (Math.floor((response.main.temp - 273.15) * 1.80) + 32); //converts temp from celsius to fahrenheit
+        pOne.html("Temperature:   " + tempF + "°F");// created degree symbol = alt + 0176
 
 
         const pTwo = $("<p class='humidity'>");
@@ -93,7 +86,7 @@ function displayWeather(city) {
 
             for (let index = 1; index < data.list.length; index++) {//array from forecast api
 
-                if (data.list[index].dt_txt.indexOf("00:00:00") > -1) {//grabs the weather info at midnight for each of the 5 days
+                if (data.list[index].dt_txt.indexOf("0:00:00") > -1) {//grabs the weather info at midnight for each of the 5 days
                     colOne = $("<div class='col-sm-2'>"); //keeps the columns in a row
                     colOne.append(moment(data.list[index].dt, "X").format("MM/DD/YYYY"));
                     var img = "<img src='http://openweathermap.org/img/w/" + data.list[index].weather[0].icon + ".png' >"
@@ -104,6 +97,7 @@ function displayWeather(city) {
 
                     var pTagTwo = $("<p class='humid'>");
                     pTagTwo.html("Humidity:   " + data.list[index].main.humidity + " %");
+
                     colOne.append(img, pTagOne, pTagTwo);
                     row.append(colOne);
                 }

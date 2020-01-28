@@ -33,8 +33,8 @@ ul {
 li {
     background: white;
     border: 1px solid gray;
-    padding: 5px;
-    max-width: 10%;
+    width: 205px;
+    margin-left: -40px;
     
 }
 
