@@ -7,7 +7,7 @@ let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
 
 
 
-
+$(document).click(".city-input" , displayWeather);
 
 $("button").click(function displayCities() {
     let cityInput = $("#user-input").val().trim();
@@ -17,29 +17,20 @@ $("button").click(function displayCities() {
     if (cityInput === "") {
         alert("Please enter a city name");
     }
-
     var ul = $("<ul>");
     var li = $("<li>");
     li.append(cityInput);
     ul.append(li);
-    $(".city-input").prepend(ul);
+    $(".city-input").append(ul);
     storeCities(cityInput);
 
 })
 
 
 function storeCities(cityInput) {
+    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];//retrieves city input from local storage
 
-
-    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
-
-    //if (cityArray.length >= 0) {
-    //var ul = $("<ul>");
-    //var li = $("<li>");
-    //li.append(cityArray);
-    //ul.append(li);
-    //$(".city-input").prepend(ul);
-    if (!cityArray.includes(cityInput)) {
+    if (!cityArray.includes(cityInput)) { //validation to stop already input cities from being stored in local storage
         cityArray.push(cityInput);
         localStorage.setItem("cityArray", JSON.stringify(cityArray));
     }
@@ -48,8 +39,8 @@ function storeCities(cityInput) {
 
 
 function getCities() {
-
-    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
+//retrieves city input from local storage; then is used to display city info in search box
+    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || []; 
 
     var ul = $("<ul>");
     for (var index = 0; index < cityArray.length; index++) {
@@ -57,7 +48,7 @@ function getCities() {
         var li = $("<li>");
         li.append(cityArray[index]);
         ul.append(li);
-        $(".city-input").prepend(ul);
+        $(".city-input").append(ul);
     }
 
     if (cityArray.length > 0) {
@@ -66,6 +57,7 @@ function getCities() {
 }
 
 function displayWeather(city) {
+    //setting weatherURL to variable and then attaching the city the user entered.
     let url = weatherURL.concat(city);
 
     $.ajax({
@@ -104,6 +96,7 @@ function displayWeather(city) {
             method: "GET"
         }).then(function (data) {
 
+
             let longitude = data.city.coord.lon
             let latitude = data.city.coord.lat
             var row = $("<div class='row' id='second-row'>");
@@ -129,10 +122,13 @@ function displayWeather(city) {
 
                     var pTagTwo = $("<p class='humid'>");
                     pTagTwo.html("Humidity:   " + data.list[index].main.humidity + " %");
+                    
                     colOne.append(img, pTagOne, pTagTwo);
                     row.append(colOne);
+                    $("#five-day").empty("");
                 }
             }
+          
             $("#five-day").append(row);
 
             //Calling uv index with long. and lat. coordinates
@@ -141,6 +137,7 @@ function displayWeather(city) {
                 method: "GET"
             }).then(function (data) {
 
+                //colors the uv index based on the current value 
                 var pFour = $("<p class='uvi'>");
                 if (data.value <= 3) {
                     pFour = $("<p class='ok'>");
