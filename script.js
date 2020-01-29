@@ -8,36 +8,68 @@ let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
 
 
 
+
 $("button").click(function displayCities() {
     let cityInput = $("#user-input").val().trim();
+
     displayWeather(cityInput);
+
     if (cityInput === "") {
         alert("Please enter a city name");
     }
 
-    for (let index = 0; index < city.length; index++) {
-        const cityArray = city[index];
-        if (cityArray.length >= 0) {
-            var ul =$("<ul class='city-list'>");
-            var li =$("<li>");
-            li.html(index)
-            ul.append(li);
-            $(".city-input")
+    var ul = $("<ul>");
+    var li = $("<li>");
+    li.append(cityInput);
+    ul.append(li);
+    $(".city-input").prepend(ul);
+    storeCities(cityInput);
 
-            cityArray.push(cityInput)
-            var storeCity = local.storage.setItem("cityArray", JSON.stringify(cityArray));
-        }
-        var retrieveCities = JSON.parse(localStorage.getItem("city"));
-    }
 })
 
 
-function displayWeather(city) {
+function storeCities(cityInput) {
 
-    weatherURL = weatherURL.concat(city);
+
+    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
+
+    //if (cityArray.length >= 0) {
+    //var ul = $("<ul>");
+    //var li = $("<li>");
+    //li.append(cityArray);
+    //ul.append(li);
+    //$(".city-input").prepend(ul);
+    if (!cityArray.includes(cityInput)) {
+        cityArray.push(cityInput);
+        localStorage.setItem("cityArray", JSON.stringify(cityArray));
+    }
+    // }
+}
+
+
+function getCities() {
+
+    var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
+
+    var ul = $("<ul>");
+    for (var index = 0; index < cityArray.length; index++) {
+
+        var li = $("<li>");
+        li.append(cityArray[index]);
+        ul.append(li);
+        $(".city-input").prepend(ul);
+    }
+
+    if (cityArray.length > 0) {
+        displayWeather(cityArray[cityArray.length - 1]);
+    }
+}
+
+function displayWeather(city) {
+    let url = weatherURL.concat(city);
 
     $.ajax({
-        url: weatherURL,
+        url: url,
         method: "GET"
     }).then(function (response) {
 
@@ -64,11 +96,11 @@ function displayWeather(city) {
         pThree.html("Wind Speed:   " + response.wind.speed + "mph");
 
 
-        forecastURL = forecastURL.concat(city);
+        url = forecastURL.concat(city);
 
         //calling forecast api to get coordinates for uv index
         $.ajax({
-            url: forecastURL,
+            url: url,
             method: "GET"
         }).then(function (data) {
 
@@ -86,7 +118,7 @@ function displayWeather(city) {
 
             for (let index = 1; index < data.list.length; index++) {//array from forecast api
 
-                if (data.list[index].dt_txt.indexOf("0:00:00") > -1) {//grabs the weather info at midnight for each of the 5 days
+                if (data.list[index].dt_txt.indexOf("09:00:00") > -1) {//grabs the weather info at midnight for each of the 5 days
                     colOne = $("<div class='col-sm-2'>"); //keeps the columns in a row
                     colOne.append(moment(data.list[index].dt, "X").format("MM/DD/YYYY"));
                     var img = "<img src='http://openweathermap.org/img/w/" + data.list[index].weather[0].icon + ".png' >"
@@ -97,7 +129,6 @@ function displayWeather(city) {
 
                     var pTagTwo = $("<p class='humid'>");
                     pTagTwo.html("Humidity:   " + data.list[index].main.humidity + " %");
-
                     colOne.append(img, pTagOne, pTagTwo);
                     row.append(colOne);
                 }
@@ -120,8 +151,10 @@ function displayWeather(city) {
                 }
                 pFour.append("UV Index:   ")
                 pFour.append(data.value);
+                $("#city-info").empty();
                 $("#city-info").append(cityHeading, pOne, pTwo, pThree, pFour)
             })
         })
     });
 }
+getCities();
