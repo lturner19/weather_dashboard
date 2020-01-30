@@ -5,8 +5,9 @@
 
 
 ## Features
-   1. User can type any city they wish, whether its local or global.
+   1. User can type any city they wish, whether it is local or global.
       * After typing in a location, the "search" button must be pushed.
+    <br>
     <br>
 
    2. The following is listed for the user along with the 5 day forecast:
@@ -14,17 +15,22 @@
       * Humidity
       * Wind Index
       * Uv Index
+    <br>
     
 
-3. If the user searches multiple cities the results are shown and can be clicked on once again to retrieve the weather forecast. 
+3. The user can see their past city searches in the list populated below the input box and click on them to review the weather forecast.
 
+<br>
 
+4. To clear the city list press the reset button and refresh the page.
 
+<br>
 
 ### Preview
 
-![image](assets/scheduler_preview.jpg)
+![image](assets/weather_dashboard.jpg)
 
+<br>
 
 ### Resources
 
@@ -45,7 +51,7 @@ The following websites provided coding for the various elements:
     ***Naereen Badges:*** https://github.com/Naereen/badges
 
 
-
+<br>
 ### Badges
 Please click the badge below to go directly to the weather app.
 
