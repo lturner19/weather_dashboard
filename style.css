@@ -17,16 +17,23 @@ h1 {
 
 input {
     max-width: 100%;
+    font-size: 16px;
+    margin-left: -10px;
 }
 i {
- color: white
+ color: white;
 }
 
-button {
+#searchBtn {
     background-color: dodgerblue;
+    border-radius: 5px;
     border: none;
     max-width: 100%;
-    padding: 3px;
+    padding: 5px;
+}
+
+#clear{
+    margin: 5px auto;
 }
 
 ul {
@@ -36,8 +43,10 @@ ul {
 
 li {
     background: white;
+    font-size: 18px;
     border: 1px solid gray;
     max-width: 100%;
+    top: 5px;
     margin-left: -40px;
     
 }
@@ -83,11 +92,3 @@ footer{
     bottom: 0;
     position: fixed;
 }
-/* media query for smaller sizes
-#user-input {
-    width:100%;
-}
-
-button {
-    width: 40%;
-} */
