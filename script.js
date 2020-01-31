@@ -1,14 +1,18 @@
-const apiKey = "appid=1b5bd969040dfbf14940a6cc061c29a4";
-let city = [];
-let index = 0;
-let weatherURL = "https://api.openweathermap.org/data/2.5/weather?" + apiKey + "&q=";
-let forecastURL = "http://api.openweathermap.org/data/2.5/forecast?" + apiKey + "&q=";
-let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
-
-
 $(document).ready(function () {
 
-    //$(document).click("city-input", displayWeather);
+    //global variables
+    const apiKey = "appid=1b5bd969040dfbf14940a6cc061c29a4";
+    let city = [];
+    let index = 0;
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?" + apiKey + "&q=";
+    let forecastURL = "http://api.openweathermap.org/data/2.5/forecast?" + apiKey + "&q=";
+    let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
+
+
+    $(document).on("click", "li", function () {//in future give li's a class so that the document will only grab those specific ones
+        displayWeather($(this).text().trim());
+    });
+
 
     $("button").click(function displayCities() {
         //takes the value of the entered in search box and trims the whitespace
@@ -25,46 +29,12 @@ $(document).ready(function () {
         var li = $("<li>");
         li.append(cityInput);
         ul.append(li);
-        $(".city-input").prepend(ul);
+        $(".city-input").append(ul);
         storeCities(cityInput);
-
     })
 
-$("#clear").click(function () {
-localStorage.clear();
-});
-
-
-    function storeCities(cityInput) {
-        var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];//retrieves city input from local storage
-
-        if (!cityArray.includes(cityInput)) { //validation to stop already input cities from being stored in local storage
-            cityArray.push(cityInput);
-            localStorage.setItem("cityArray", JSON.stringify(cityArray));
-        }
-        // }
-    }
-
-
-    function retrieveCities() {
-        //retrieves city input from local storage; then is used to display city info under the search box
-        var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
-
-        var ul = $("<ul>");// put here so as not to keep creating ul tags
-        for (var index = 0; index < cityArray.length; index++) {
-            var li = $("<li>");
-            li.append(cityArray[index]);
-            ul.append(li);
-            $(".city-input").append(ul);
-        }
-
-        if (cityArray.length > 0) { //displays the last city entered, even after refresh
-            displayWeather(cityArray[cityArray.length - 1]);
-        }
-    }
-
+    //---------------------------------------------------------------------------------------------------------------------------
     function displayWeather(city) {
-        var cityArray = JSON.parse(localStorage.getItem("cityArray"));
         //setting weatherURL to variable and then attaching the city the user entered.
         let url = weatherURL.concat(city);
 
@@ -72,6 +42,8 @@ localStorage.clear();
             url: url,
             method: "GET"
         }).then(function (response) {
+
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~1st ajax call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //dynamically creating h3 tag and then applying the city name from the api
             var cityHeading = $("<h3 class='user-city'>");
@@ -93,10 +65,13 @@ localStorage.clear();
             pTwo.html("Humidity:   " + response.main.humidity + "%");
 
             const pThree = $("<p class='wind-speed'>");
-            pThree.html("Wind Speed:   " + response.wind.speed + "mph");
+            let wind = Math.floor(response.wind.speed);
+            pThree.html("Wind Speed:   " + wind + " mph");
 
+            //adds forecast api with the city input by the user 
+            url = forecastURL.concat(city);
 
-            url = forecastURL.concat(city); //adds forecast api with the city input by the user
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~2nd ajax call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //calling forecast api to get coordinates for uv index
             $.ajax({
@@ -104,7 +79,7 @@ localStorage.clear();
                 method: "GET"
             }).then(function (data) {
 
-
+                //coordinates called from the forecast api
                 let longitude = data.city.coord.lon
                 let latitude = data.city.coord.lat
                 var row = $("<div class='row' id='second-row'>");
@@ -116,10 +91,11 @@ localStorage.clear();
                 var colFour;
                 var colFive;
 
+                // running through array from forecast api
+                for (let index = 1; index < data.list.length; index++) {
 
-                for (let index = 1; index < data.list.length; index++) {//array from forecast api
-
-                    if (data.list[index].dt_txt.indexOf("09:00:00") > -1) {//grabs the weather info at 9 for each of the 5 days
+                    //grabs the weather info at 9 for each of the 5 days
+                    if (data.list[index].dt_txt.indexOf("09:00:00") > -1) {
 
                         colOne = $("<div class='col-sm-2'>"); //keeps the columns in a row
                         colOne.append(moment(data.list[index].dt, "X").format("MM/DD/YYYY"));
@@ -142,6 +118,8 @@ localStorage.clear();
                 //allows all the info gathered to be displayed on page
                 $("#five-day").append(row);
 
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~3rd ajax call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
                 //Calling uv index with long. and lat. coordinates
                 $.ajax({
                     url: uviURL + "&lat=" + latitude + "&lon=" + longitude,
@@ -150,13 +128,20 @@ localStorage.clear();
 
                     //colors the uv index based on the current value 
                     var pFour = $("<p class='uvi'>");
-                    if (data.value <= 3) {
+                    var uv = Math.floor(data.value);
+
+                    if (uv <= 2) {
                         pFour = $("<p class='ok'>");
-                    } else if (data.value > 3 && data.value < 7) {
+                    } else if (uv > 3 && uv <= 5) {
+                        pFour = $("<p class='moderate'>");
+                    } else if (uv > 6 && uv <= 7) {
                         pFour = $("<p class='warning'>");
-                    } else {
+                    } else if (uv > 8 && uv <= 10) {
                         pFour = $("<p class='danger'>");
+                    } else {
+                        pFour = $("<p class='extreme'>");
                     }
+
                     pFour.append("UV Index:   ")
                     pFour.append(data.value);
 
@@ -167,5 +152,39 @@ localStorage.clear();
             })
         });
     }
+    //-------------------------------------------------------------------------------------------------------------------
+    function storeCities(cityInput) {
+        //retrieves city input from local storage
+        var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
+
+        //validation to stop duplicate city inputs from being stored in local storage
+        if (!cityArray.includes(cityInput)) {
+            cityArray.push(cityInput);
+            localStorage.setItem("cityArray", JSON.stringify(cityArray));
+        }
+    }
+
+    function retrieveCities() {
+        //retrieves city input from local storage; then is used to display city info under the search box
+        var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
+
+        var ul = $("<ul>");// put here so as not to keep creating ul tags
+        for (var index = 0; index < cityArray.length; index++) {
+            var li = $("<li>");
+            li.append(cityArray[index]);
+            ul.append(li);
+            $(".city-input").append(ul);
+        }
+
+        if (cityArray.length > 0) { //displays the last city entered, even after refresh
+            displayWeather(cityArray[cityArray.length - 1]);
+        }
+    }
+    //---------------------------------------------------------------------------------------------------------------------
     retrieveCities();
+
+    $("#clear").click(function () {
+        localStorage.clear();
+    });
+
 });
