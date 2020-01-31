@@ -55,19 +55,35 @@ li {
     display: inline-block;
     background-color: green;
     color: white;
+    padding: 5px 10px;
 }
 
-.warning{
+.moderate{
     display: inline-block;
     background-color: yellow;
+    padding: 5px 10px;
+}
+
+.warning {
+    display: inline-block;
+    background-color: orange;
+    color: white;
+    padding: 5px 10px;
 }
 
 .danger {
     display: inline-block;
     background-color: red;
     color: white;
+    padding: 5px 10px;
 }
 
+.extreme {
+    display: inline-block;
+    background-color:mediumvioletred;
+    color: white;
+    padding: 5px 10px;
+}
 
 .col-sm-2 {
     background-color:#eaf4f5;

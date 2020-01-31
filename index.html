@@ -23,9 +23,10 @@
                 <div class="card" style="width: 80%;">
                     <div class="card-body" id="search">
                         <h5>Search for City:</h5>
-                        <input label="search" id="user-input" />
-                        <button><i class="fas fa-search"></i></button>
+                        <input type= text label="search" id="user-input" onfocus="this.value=''"/>
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
                        <div class="city-input"> </div>
+                       <input type="button" value="reset" id="clear">
                     </div>
                 </div>
             </div>
