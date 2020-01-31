@@ -65,7 +65,7 @@ $(document).ready(function () {
             pTwo.html("Humidity:   " + response.main.humidity + "%");
 
             const pThree = $("<p class='wind-speed'>");
-            let wind = Math.floor(response.wind.speed);
+            let wind = response.wind.speed;
             pThree.html("Wind Speed:   " + wind + " mph");
 
             //adds forecast api with the city input by the user 
@@ -129,7 +129,7 @@ $(document).ready(function () {
 
                     //colors the uv index based on the current value 
                     var pFour = $("<p class='uvi'>");
-                    var uv = Math.floor(data.value);
+                    var uv = data.value
 
                     if (uv <= 2) {
                         pFour = $("<p class='ok'>");
