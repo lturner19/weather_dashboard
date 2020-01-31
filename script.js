@@ -5,8 +5,8 @@ $(document).ready(function () {
     let city = [];
     let index = 0;
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?" + apiKey + "&q=";
-    let forecastURL = "http://api.openweathermap.org/data/2.5/forecast?" + apiKey + "&q=";
-    let uviURL = "http://api.openweathermap.org/data/2.5/uvi?" + apiKey;
+    let forecastURL = "https://api.openweathermap.org/data/2.5/forecast?" + apiKey + "&q=";
+    let uviURL = "https://api.openweathermap.org/data/2.5/uvi?" + apiKey;
 
 
     $(document).on("click", "li", function () {//in future give li's a class so that the document will only grab those specific ones
@@ -69,9 +69,10 @@ $(document).ready(function () {
             pThree.html("Wind Speed:   " + wind + " mph");
 
             //adds forecast api with the city input by the user 
-            url = forecastURL.concat(city);
+
 
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~2nd ajax call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            let url = forecastURL.concat(city);
 
             //calling forecast api to get coordinates for uv index
             $.ajax({
@@ -95,7 +96,7 @@ $(document).ready(function () {
                 for (let index = 1; index < data.list.length; index++) {
 
                     //grabs the weather info at 9 for each of the 5 days
-                    if (data.list[index].dt_txt.indexOf("09:00:00") > -1) {
+                    if (data.list[index].dt_txt.indexOf("00:00:00") > -1) {
 
                         colOne = $("<div class='col-sm-2'>"); //keeps the columns in a row
                         colOne.append(moment(data.list[index].dt, "X").format("MM/DD/YYYY"));
