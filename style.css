@@ -85,6 +85,11 @@ li {
     padding: 5px 10px;
 }
 
+#rowHeading {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
 .col-sm-2 {
     background-color:#eaf4f5;
     font-size: 14px;

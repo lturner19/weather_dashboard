@@ -83,6 +83,9 @@ $(document).ready(function () {
                 //coordinates called from the forecast api
                 let longitude = data.city.coord.lon
                 let latitude = data.city.coord.lat
+                var rowHeader = $("<div class='row1' id='rowHeading'>");
+                rowHeader.append("5 Day Forecast");
+
                 var row = $("<div class='row' id='second-row'>");
                 var colOne = $("<div class='col1'>");
 
@@ -116,7 +119,8 @@ $(document).ready(function () {
                         $("#five-day").empty("");
                     }
                 }
-                //allows all the info gathered to be displayed on page
+                //allows all the info gathered to be displayed on 
+                $("#five-day").append(rowHeader);
                 $("#five-day").append(row);
 
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~3rd ajax call~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
