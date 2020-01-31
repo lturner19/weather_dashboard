@@ -52,7 +52,7 @@ $(document).ready(function () {
             var date = $("<span>") //creates a span to display the date next to the city
             date.html(" " + moment(response.dt, "X").format("MM/DD/YYYY"));//converting the dt from a number to a string, then back to a number
 
-            var img = "<img src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' >" //displays the weather icon for the day
+            var img = "<img src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png' >" //displays the weather icon for the day
 
             cityHeading.append(date, img); //display city name with date and weather icon
 
@@ -100,7 +100,7 @@ $(document).ready(function () {
 
                         colOne = $("<div class='col-sm-2'>"); //keeps the columns in a row
                         colOne.append(moment(data.list[index].dt, "X").format("MM/DD/YYYY"));
-                        var img = "<img src='http://openweathermap.org/img/w/" + data.list[index].weather[0].icon + ".png' >"
+                        var img = "<img src='https://openweathermap.org/img/w/" + data.list[index].weather[0].icon + ".png' >"
 
                         var pTagOne = $("<p class='ptemp'>")
                         let tempConversion = (Math.floor((data.list[index].main.temp - 273.15) * 1.80) + 32);
