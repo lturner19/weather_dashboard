@@ -52,8 +52,9 @@ The following websites provided coding for the various elements:
 
 
 <br>
+
 ### Badges
-Please click the badge below to go directly to the weather app.
+Please click the badge below to go directly to the website.
 
 [![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://lturner19.github.io/weather_dashboard/)
 
