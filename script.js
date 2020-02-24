@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     //global variables
-    const apiKey = "appid=1b5bd969040dfbf14940a6cc061c29a4";
+    const apiKey = "appid=1b5bd969040dfbf14940a6cc061c29a4";//personal key supplied by openweather website
     let city = [];
     let index = 0;
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?" + apiKey + "&q=";
@@ -9,7 +9,7 @@ $(document).ready(function () {
     let uviURL = "https://api.openweathermap.org/data/2.5/uvi?" + apiKey;
 
 
-    $(document).on("click", "li", function () {//in future give li's a class so that the document will only grab those specific ones
+    $(document).on("click", ".displayCity", function () {//displayCity class for dynamically created li tag
         displayWeather($(this).text().trim());
     });
 
@@ -26,7 +26,7 @@ $(document).ready(function () {
         }
         //displays cities under search box
         var ul = $("<ul>");
-        var li = $("<li>");
+        var li = $("<li class='displayCity'>");
         li.append(cityInput);
         ul.append(li);
         $(".city-input").append(ul);
@@ -134,7 +134,8 @@ $(document).ready(function () {
                     //colors the uv index based on the current value 
                     var pFour = $("<p class='uvi'>");
                     var uv = data.value
-
+                    
+                    //will change the color of display box based on value of index retrieved
                     if (uv <= 2) {
                         pFour = $("<p class='ok'>");
                     } else if (uv > 3 && uv <= 5) {
@@ -147,6 +148,7 @@ $(document).ready(function () {
                         pFour = $("<p class='extreme'>");
                     }
 
+                    //space purposefully left 
                     pFour.append("UV Index:   ")
                     pFour.append(data.value);
 
@@ -165,7 +167,7 @@ $(document).ready(function () {
         //validation to stop duplicate city inputs from being stored in local storage
         if (!cityArray.includes(cityInput)) {
             cityArray.push(cityInput);
-            //
+            //changes the values to a string for local storage
             localStorage.setItem("cityArray", JSON.stringify(cityArray));
         }
     }
@@ -174,9 +176,9 @@ $(document).ready(function () {
         //retrieves city input from local storage; then appends/display city info under search box
         var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
 
-        var ul = $("<ul>");// put here so as not to keep creating ul tags
+        var ul = $("<ul>");// stops duplication of ul tags at this location
         for (var index = 0; index < cityArray.length; index++) {
-            var li = $("<li>");
+            var li = $("<li class='displayCity'>");
             li.append(cityArray[index]);
             ul.append(li);
             $(".city-input").append(ul);
