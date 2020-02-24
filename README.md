@@ -1,10 +1,10 @@
-# Weather Dashboard
+# WEATHER DASHBOARD
 
-## Introduction
+## INTRODUCTION
  As millions of people travel to new cities and countries, it is nice to have an app readily available to stay one step ahead of the weather.  This user friendly app allows the user to quickly access a city's current weather forecast as well as the 5 day forecast.
 
 
-## Features
+## FEATURES
    1. User can type any city they wish, whether it is local or global.
       * After typing in a location, the "search" button must be pushed.
     <br>
@@ -26,13 +26,14 @@
 
 <br>
 
-### Preview
+
+### PREVIEW
 
 ![image](assets/weather_dashboard.jpg)
 
 <br>
 
-### Resources
+### RESOURCES
 
 The following websites provided coding for the various elements:
 
@@ -53,7 +54,7 @@ The following websites provided coding for the various elements:
 
 <br>
 
-### Badges
+### BADGES
 Please click the badge below to go directly to the website.
 
 [![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://lturner19.github.io/weather_dashboard/)
