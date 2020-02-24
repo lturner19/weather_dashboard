@@ -13,10 +13,10 @@ $(document).ready(function () {
         displayWeather($(this).text().trim());
     });
 
-
-    $("button").click(function displayCities() {
+        //specifically uses search icon to search
+    $("#searchBtn").click(function displayCities() {
         //takes the value of the entered in search box and trims the whitespace
-        let cityInput = $("#user-input").val().trim();
+        let cityInput = $(".user-input").val().trim();
 
         //calls the weather function and applies cityInput as parameter
         displayWeather(cityInput);
@@ -165,12 +165,13 @@ $(document).ready(function () {
         //validation to stop duplicate city inputs from being stored in local storage
         if (!cityArray.includes(cityInput)) {
             cityArray.push(cityInput);
+            //
             localStorage.setItem("cityArray", JSON.stringify(cityArray));
         }
     }
 
     function retrieveCities() {
-        //retrieves city input from local storage; then is used to display city info under the search box
+        //retrieves city input from local storage; then appends/display city info under search box
         var cityArray = JSON.parse(localStorage.getItem("cityArray")) || [];
 
         var ul = $("<ul>");// put here so as not to keep creating ul tags
@@ -188,7 +189,10 @@ $(document).ready(function () {
     //---------------------------------------------------------------------------------------------------------------------
     retrieveCities();
 
+    //removes appended list of searched cities and local storage without refreshing the page 
     $("#clear").click(function () {
+        $(".user-input").html("");
+        $(".city-input").html("");
         localStorage.clear();
     });
 
