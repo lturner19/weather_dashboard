@@ -29,7 +29,8 @@
 
 ### PREVIEW
 
-![image](assets/weather_dashboard.jpg)
+
+<img src="assets\image\weather_dashboard.gif">
 
 <br>
 
